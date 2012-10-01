@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+
+<h1>Available distributions</h1>
+
+
+{{for distro in distros:}}
+		<div class="post greenbox">
+			<div class="title">
+				<h1>{{=A(distro.name,_href=URL('werepo','default','select',args=[distro.id]))}} {{=distro.codename}}</h1>
+			</div>
+			<div class="entry"> 
+				<p>{{=distro.description}}</p>
+				<p>{{=distro.version}}</p>
+			</div>
+            <div class="btm">
+				<div class="l">
+					<div class="r">
+
+						<p class="meta"></p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+        <br>
+{{pass}}
+
+
+
+

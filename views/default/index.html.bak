@@ -1,0 +1,21 @@
+{{extend 'layout.html'}}
+
+<h1>Available distributions</h1>
+
+
+   <!-- start sidebar -->
+   <div id="sidebar">
+    <ul>
+     <li>
+      <h2>
+       distributions
+      </h2>
+      <ul>
+{{for tf in distros:}}
+       <li/>{{=A(distros.description,_href=URL('werepo','default','select',args=[tf.telefams.id]))}}</li>
+{{pass}}
+      </ul>
+     </li>
+    </ul>
+   </div>
+   <!-- end sidebar -->

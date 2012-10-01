@@ -1,0 +1,70 @@
+{{extend 'layout.html'}}
+
+<h1>Available packages in {{=session.distro_description}}</h1>
+
+{{=nav}}
+<h2>{{=backward}} {{=forward}}</h2>
+
+
+{{for r in rows:}}
+		<div class="post greenbox">
+			<div class="title">
+				<h1>{{=r.pool.package}}</h1>
+			</div>
+			<div class="entry"> 
+                <a href=http://screenshots.debian.net/screenshot/{{=r.pool.package}}>
+                <img src="http://screenshots.debian.net/thumbnail/{{=r.pool.package}}" alt="" width="160" height="120" class="left" /></a>
+				<p>{{=r.pool.description}}</p>
+                <p>{{=r.pool.version}}	</p>
+                <p>{{=r.pool.size}} bytes</p>
+			</div>
+            <div class="btm">
+				<div class="l">
+					<div class="r">
+
+						<p class="meta"><a href=http://screenshots.debian.net/package/{{=r.pool.package}} class="more">More</a> &nbsp;&nbsp;&nbsp;  <a href=apt://{{=r.pool.package}} class="more">Install</a> &nbsp;&nbsp;&nbsp; </p>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+        <br>
+
+{{pass}}
+<h2>{{=backward}} {{=forward}}</h2>
+
+</div>
+
+	<!-- start sidebar -->
+	<div id="sidebar">
+		<ul>
+			<li>
+				<h2>Search</h2>
+                <ul><li>
+                <form action={{=URL("packages","index")}}>
+                <input type=text name=search>
+                </br>
+                </br>
+                <select name=where>
+                       <option value="names">Package names</option>
+                       <option value="descriptions">Descriptions</option>
+                </select>
+                <input type=submit value="Go">
+
+                </form>
+                </li></ul>
+			</li>
+		</ul>
+			<li>
+				<h2>Links</h2>
+                <ul>
+                   <li>{{=A("Choose another distribution",_href=URL("default","index"))}}</li>
+                </ul>
+
+			</li>
+
+
+	</div>
+	<!-- end sidebar -->
+
