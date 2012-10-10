@@ -150,4 +150,7 @@ db.define_table('pool',
     Field('description', type='string'),
     Field('version', type='string'),
     Field('size', type='string'),
+    Field('filename', type='string'),
+    Field('maintainer', type='string'),
+
 )

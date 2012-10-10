@@ -21,13 +21,13 @@
 				<div class="l">
 					<div class="r">
 
-{{if auth.is_logged_in():}}
 	                <p class="meta">
+{{if auth.is_logged_in():}}
                         <a href={{=URL('werepo','default','edit',args=[distro.id])}} class="more">Edit</a>
                         &nbsp;&nbsp;&nbsp;
                         <a href={{=URL('werepo','default','delete',args=[distro.id])}} class="more">Delete</a>
-                    </p>
 {{pass}}
+                    </p>
 
 
 					</div>

@@ -22,14 +22,20 @@
                 <a href=http://screenshots.debian.net/screenshot/{{=r.pool.package}}>
                 <img src="http://screenshots.debian.net/thumbnail/{{=r.pool.package}}" alt="" width="160" height="120" class="left" /></a>
 				<p>{{=r.pool.description}}</p>
-                <p>{{=r.pool.version}}	</p>
-                <p>{{=r.pool.size}} bytes</p>
+                <p>Size: {{=r.pool.size}} bytes</p>
+                <p>Version: {{=r.pool.version}}	</p>
 			</div>
             <div class="btm">
 				<div class="l">
 					<div class="r">
 
-						<p class="meta"><a href=http://screenshots.debian.net/package/{{=r.pool.package}} class="more">More</a> &nbsp;&nbsp;&nbsp;  <a href=apt://{{=r.pool.package}} class="more">Install</a> &nbsp;&nbsp;&nbsp; </p>
+						<p class="meta">
+                        <a href=http://screenshots.debian.net/package/{{=r.pool.package}} class="more">More</a>
+                        &nbsp;&nbsp;&nbsp;  
+                        <a href=apt://{{=r.pool.package}} class="more">Install</a>
+                        &nbsp;&nbsp;&nbsp;  
+                        <a href={{=r.sources.url}}/{{=r.pool.filename}} class="more">Download</a>
+                        </p>
 					</div>
 				</div>
 			</div>
