@@ -129,13 +129,19 @@ db.define_table('distros',
 
 db.define_table('sources',
     Field('distro_id', 'reference distros'),
-    Field('url', type='string'),
+    Field('url', type='string', length=100, default="http://"),
     Field('component', type='string'),
-    Field('section', type='string'),
+    Field('sections', type='list:string'),
 )
+
+db.sources.distro_id.default = session.distro_id
+db.sources.distro_id.readable = db.sources.distro_id.writable = False
+#db.sources.sections.requires= IS_IN_SET(['main','restricted','universe','multiverse','test'])
+
 
 db.define_table('packages',
     Field('source_id', 'reference sources'),
+    Field('section', type='string'),
     Field('pool_id', 'reference pool'),
 )
 

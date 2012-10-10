@@ -18,8 +18,9 @@ def select():
     session.distro_id=request.args[0]
     session.distro_description=db.distros[session.distro_id].name+" "+db.distros[session.distro_id].version
     redirect(URL('werepo','packages','index'))
-   
 
+   
+@auth.requires_login()
 def new():
     crud.messages.submit_button = 'Create'
     form = crud.create(db.distros)
@@ -33,9 +34,9 @@ def new():
     return dict(form=form)
 
 def edit():    
-    crud.messages.submit_button = 'Change'
-    crud.settings.update_next = URL('index')
-    form = crud.update(db.distros, request.args[0],deletable=True)
+    crud.messages.submit_button = 'Save changes'
+    crud.settings.update_next = URL('select',args=[request.args[0]])
+    form = crud.update(db.distros, request.args[0],deletable=False)
     return dict(form=form)
 
 def error():
