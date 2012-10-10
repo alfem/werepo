@@ -35,7 +35,7 @@ div.error { background-color: red; color: white; padding: 3px; }
   <div id="header">
    <div id="logo">
     <h1>
-     {{=response.title or request.application}}
+     {{=A(request.application,_href=URL('werepo','default','index',))}}
     </h1>
     <p>
     Software & Content Repositories

@@ -2,6 +2,11 @@
 
 <h1>Choose a distribution</h1>
 
+<p>
+{{if auth.is_logged_in():}}
+    {{=A("(or create new)",_href=URL('werepo','default','new',))}}
+{{pass}}
+</p>
 
 {{for distro in distros:}}
 		<div class="post greenbox">
@@ -10,13 +15,21 @@
 			</div>
 			<div class="entry"> 
 				<p>{{=distro.description}}</p>
-				<p>{{=distro.version}}</p>
+				<p>Version: {{=distro.version}}</p>
 			</div>
             <div class="btm">
 				<div class="l">
 					<div class="r">
 
-						<p class="meta"></p>
+{{if auth.is_logged_in():}}
+	                <p class="meta">
+                        <a href={{=URL('werepo','default','edit',args=[distro.id])}} class="more">Edit</a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href={{=URL('werepo','default','delete',args=[distro.id])}} class="more">Delete</a>
+                    </p>
+{{pass}}
+
+
 					</div>
 				</div>
 			</div>
@@ -24,7 +37,6 @@
 		</div>
         <br>
 {{pass}}
-
 
 
 

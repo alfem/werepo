@@ -2,7 +2,14 @@
 
 <h1>Available packages in {{=session.distro_description}}</h1>
 
+<p>
+{{if auth.is_logged_in():}}
+    {{=A("(manage package sources)",_href=URL('werepo','sources','index',))}}
+{{pass}}
+</p>
 {{=nav}}
+
+
 <h2>{{=backward}} {{=forward}}</h2>
 
 

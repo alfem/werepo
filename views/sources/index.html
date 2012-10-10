@@ -1,0 +1,43 @@
+{{extend 'layout.html'}}
+
+<h1>Sources for {{=session.distro_description}}</h1>
+
+<p>
+{{if auth.is_logged_in():}}
+    {{=A("(create new)",_href=URL('werepo','sources','new',))}}
+{{pass}}
+</p>
+
+
+{{for source in sources:}}
+		<div class="post greenbox">
+			<div class="title">
+				<h1>{{=A(source.component,_href=URL('werepo','sources','edit',args=[source.id]))}} </h1>
+			</div>
+			<div class="entry"> 
+				<p>Sections: {{=source.sections}}</p>
+				<p>Base URL: {{=A(source.url,_href=source.url)}}</p>
+			</div>
+            <div class="btm">
+				<div class="l">
+					<div class="r">
+
+{{if auth.is_logged_in():}}
+	                <p class="meta">
+                        <a href={{=URL('werepo','sources','load',args=[source.id])}} class="more">Load Packages</a>
+                    </p>
+
+
+</p>
+{{pass}}
+
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+        <br>
+{{pass}}
+
+
