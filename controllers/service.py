@@ -30,8 +30,25 @@ def load_packages(source_id):
     for section in item[0].sections:
         url="%s/dists/%s/%s/binary-i386/Packages" % (item[0].url, item[0].component, section)
 
+        try:
+          message="Downloading Packages..."
+          remote_file_handler=urllib2.urlopen(url)
+        except IOError as e:
+          remote_file_handler=False
+          message+='Oops, file does no exists. '
 
-        remote_file_handler=urllib2.urlopen(url)
+        if not remote_file_handler:
+            try:
+               message+="Trying Packages.gz..."
+               compressed_file_handler=urllib2.urlopen(url+".gz")
+               compressed_file = StringIO.StringIO(compressed_file_handler.read())
+               remote_file_handler = gzip.GzipFile(fileobj=compressed_file)
+            except IOError as e:
+               message='Oops, file does not exists. '
+               return 0,0,message
+
+        message+="...OK. Loading..."
+
         package_list=remote_file_handler.readlines()
         remote_file_handler.close()
 
@@ -46,8 +63,9 @@ def load_packages(source_id):
             db.packages.insert(source_id=source_id,pool_id=pool_id,section=section)
 
             db.commit()
-
-    return new,updated
+    
+    message+="...success!"
+    return new,updated,message
 
 
 

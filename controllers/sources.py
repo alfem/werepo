@@ -6,6 +6,8 @@ def call(): return service()
 ### end requires
 import datetime
 import urllib2
+import StringIO
+import gzip
 from debian import deb822
 
 @auth.requires_login()
@@ -50,8 +52,7 @@ def load():
 
     if len(item) != 1:
         return dict(message="Error",new=0,updated=0)
-    
-    
+     
     db(db.packages.source_id == source_id).delete()
  
     new=0
@@ -60,8 +61,25 @@ def load():
     for section in item[0].sections:
         url="%s/dists/%s/%s/binary-i386/Packages" % (item[0].url, item[0].component, section)
 
+        try:
+          message="Downloading Packages..."
+          remote_file_handler=urllib2.urlopen(url)
+        except IOError as e:
+          remote_file_handler=False
+          message+='Oops, file does no exists. '
 
-        remote_file_handler=urllib2.urlopen(url)
+        if not remote_file_handler:
+            try:
+               message+="Trying Packages.gz..."
+               compressed_file_handler=urllib2.urlopen(url+".gz")
+               compressed_file = StringIO.StringIO(compressed_file_handler.read())
+               remote_file_handler = gzip.GzipFile(fileobj=compressed_file)
+            except IOError as e:
+               message='Oops, file does not exists. '
+               return dict(message=message,new=0,updated=0)
+
+        message+="...OK. Loading..."
+
         package_list=remote_file_handler.readlines()
         remote_file_handler.close()
 
@@ -71,13 +89,14 @@ def load():
                 pool_id=pool_item[0]['id']
                 updated+=1
             else:
-                pool_id=db.pool.insert(package=pkg['package'],description=pkg['description'],version=pkg['version'],size=pkg['size'])
+                pool_id=db.pool.insert(package=pkg['package'],description=pkg['description'],version=pkg['version'],size=pkg['size'],filename=pkg['filename'],maintainer=pkg['maintainer'])
                 new+=1
             db.packages.insert(source_id=source_id,pool_id=pool_id,section=section)
 
         db.commit()
 
-    return dict(message="Successful!",new=new,updated=updated)
+    message+="...success!"
+    return dict(message=message,new=new,updated=updated)
 
 
 
